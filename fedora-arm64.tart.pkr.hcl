@@ -1,35 +1,4 @@
-#!/usr/bin/env packer build --force
-#
-#  Author: Hari Sekhon
-#  Date: 2023-05-28 15:50:29 +0100 (Sun, 28 May 2023)
-#
-#  vim:ts=2:sts=2:sw=2:et:filetype=conf
-#
-#  https://github.com/HariSekhon/Packer
-#
-#  License: see accompanying Hari Sekhon LICENSE file
-#
-#  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback to help steer this or other code I publish
-#
-#  https://www.linkedin.com/in/HariSekhon
-#
-
-# XXX: Use alternative http.pkr.hcl for now until this issue is resolved:
-#
-#   https://github.com/cirruslabs/packer-plugin-tart/issues/71
-
-# Requires macOS Ventura 13.4
-#
-# Must run 'scripts/prepare_fedora-38.sh' first to download the ISO and generate another ISO with the anaconda-ks.cfg
-#
-# 'packer' command must be run from the same directory as this file so the ISO files are found under iso/
-
-# ============================================================================ #
-#                  P a c k e r   -   F e d o r a   -   T a r t
-# ============================================================================ #
-
 packer {
-  # Data sources only available in 1.7+
   required_version = ">= 1.7.0, < 2.0.0"
   required_plugins {
     tart = {
@@ -39,17 +8,17 @@ packer {
   }
 }
 
-# https://alt.fedoraproject.org/alt/
 variable "version" {
   type    = string
-  default = "38"
+  default = "40"
 }
 
 variable "iso" {
   type    = string
-  default = "Fedora-Server-dvd-aarch64-38-1.6.iso"
+  default = "Fedora-Server-dvd-aarch64-40-1.14.iso"
 }
 
+# TODO: debug 'VM "isos/fedora-40_cidata.iso:latest" does not exist
 locals {
   name = "fedora"
   isos = [
@@ -59,7 +28,6 @@ locals {
   vm_name = "${local.name}-${var.version}"
 }
 
-# https://developer.hashicorp.com/packer/plugins/builders/tart
 source "tart-cli" "fedora" {
   vm_name      = local.vm_name
   from_iso     = local.isos
@@ -95,17 +63,12 @@ source "tart-cli" "fedora" {
 
 build {
   name = local.name
-
   sources = ["source.tart-cli.fedora"]
 
-  # https://developer.hashicorp.com/packer/docs/provisioners/shell-local
-  #
   provisioner "shell-local" {
     script = "./scripts/local_virtiofs.sh"
   }
 
-  # https://developer.hashicorp.com/packer/docs/provisioners/shell
-  #
   provisioner "shell" {
     scripts = [
       "./scripts/version.sh",
@@ -115,15 +78,6 @@ build {
     ]
     execute_command = "echo 'packer' | sudo -S -E bash '{{ .Path }}' '${packer.version}'"
   }
-
-  # https://developer.hashicorp.com/packer/docs/provisioners/shell
-  #
-  #provisioner "shell" {
-  #  execute_command = "echo 'packer' | sudo -S -E bash '{{ .Path }}'"
-  #  inline = [
-  #    "for x in anaconda-ks.cfg ks-pre.log ks-post.log; do if [ -f /root/$x ]; then cp -fv /root/$x /mnt/virtiofs/; fi; done"
-  #  ]
-  #}
 
   post-processor "checksum" {
     checksum_types      = ["md5", "sha512"]

@@ -316,7 +316,7 @@ debian-tart:
 
 .PHONY: fedora-tart
 fedora-tart:
-	scripts/prepare_fedora-38.sh
+	scripts/prepare_fedora-40.sh
 	packer build --force fedora-arm64.tart.pkr.hcl
 
 .PHONY: fedora-38-tart

@@ -19,7 +19,7 @@ set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 srcdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-iso="Fedora-Server-dvd-aarch64-38-1.6.iso"
+iso="Fedora-Server-dvd-aarch64-40-1.14.iso"
 version="${iso##*-aarch64-}"
 version="${version%-*}"
 
@@ -33,7 +33,7 @@ echo "Downloading Fedora ISO..."
 wget -cO "$iso" "$url"
 echo
 
-cidata="fedora-38_cidata"
+cidata="fedora-40_cidata"
 iso="$cidata.iso"
 
 if [ -d "$cidata" ]; then
