@@ -133,6 +133,16 @@ or for a specific build:
 make <distro>-<major_version>
 ```
 
+## Packer Template
+
+A heavily documented generic Packer template can be found in the [HariSekhon/Templates](https://github.com/HariSekhon/Templates) repo:
+
+[https://github.com/HariSekhon/Templates/blob/master/template.pkr.hcl](https://github.com/HariSekhon/Templates/blob/master/template.pkr.hcl)
+
+[HariSekhon/Templates - template.pkrvars.hcl](https://github.com/HariSekhon/Templates/blob/master/template.pkrvars.hcl)
+
+[![Readme Card](https://github-readme-stats.vercel.app/api/pin/?username=HariSekhon&repo=Templates&theme=ambient_gradient&description_lines_count=3)](https://github.com/HariSekhon/Templates)
+
 ## Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=HariSekhon/Packer&type=Date)](https://star-history.com/#HariSekhon/Packer&Date)
