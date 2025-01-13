@@ -23,6 +23,9 @@ if [ "$EUID" -ne 0 ]; then
     sudo=sudo
 fi
 
+echo
+uname -a
+echo
 echo "Environment:"
 echo
 env
