@@ -16,7 +16,7 @@
 
 # Requires macOS Ventura 13.4
 #
-# Must run 'scripts/prepare_rocky-9.2.sh' first to download the ISO and generate another ISO with the anaconda-ks.cfg
+# Must run 'scripts/download_rocky-9.2.sh' first to download the ISO and generate another ISO with the anaconda-ks.cfg
 #
 # Must run 'python3 -m http.server -d installers' from this same directory before running 'packer'
 #

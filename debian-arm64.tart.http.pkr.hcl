@@ -16,7 +16,7 @@
 
 # Requires macOS Ventura 13.4
 #
-# Must run 'scripts/prepare_debian-11.sh' first to download the ISO and generate another ISO with the preseed.cfg
+# Must run 'scripts/download_debian-11.sh' first to download the ISO and generate another ISO with the preseed.cfg
 #
 # Must run 'python3 -m http.server -d installers' from this same directory before running 'packer'
 #

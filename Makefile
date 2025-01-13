@@ -311,17 +311,17 @@ tart-all:
 
 .PHONY: debian-tart
 debian-tart:
-	scripts/prepare_debian-11.sh
+	scripts/download_debian-11.sh
 	packer build --force debian-arm64.tart.pkr.hcl
 
 .PHONY: fedora-tart
 fedora-tart:
-	scripts/prepare_fedora-38.sh
+	scripts/download_fedora-38.sh
 	packer build --force fedora-arm64.tart.pkr.hcl
 
 .PHONY: fedora-38-tart
 fedora-37-tart:
-	scripts/prepare_fedora-37.sh
+	scripts/download_fedora-37.sh
 	packer build --force \
 		-var version=38 \
 		-var iso=Fedora-Server-dvd-x86_64-37-1.6.iso \
@@ -329,7 +329,7 @@ fedora-37-tart:
 
 .PHONY: fedora-38-tart
 fedora-38-tart:
-	scripts/prepare_fedora-38.sh
+	scripts/download_fedora-38.sh
 	packer build --force \
 		-var version=38 \
 		-var iso=Fedora-Server-dvd-x86_64-38-1.6.iso \
@@ -337,12 +337,12 @@ fedora-38-tart:
 
 .PHONY: rocky-tart
 rocky-tart:
-	scripts/prepare_rocky-9.2.sh
+	scripts/download_rocky-9.2.sh
 	packer build --force rocky-arm64.tart.pkr.hcl
 
 .PHONY: rocky-9.2-tart
 rocky-9.2-tart:
-	scripts/prepare_rocky-9.2.sh
+	scripts/download_rocky-9.2.sh
 	packer build --force \
 		-var version="9.2" \
 		-var iso="Rocky-9.2-aarch64-dvd.iso" \
@@ -350,12 +350,12 @@ rocky-9.2-tart:
 
 .PHONY: ubuntu-tart
 ubuntu-tart:
-	scripts/prepare_ubuntu-22.04.sh
+	scripts/download_ubuntu-22.04.sh
 	packer build --force ubuntu-arm64.tart.pkr.hcl
 
 .PHONY: ubuntu-22-tart
 ubuntu-22-tart:
-	scripts/prepare_ubuntu-22.04.sh
+	scripts/download_ubuntu-22.04.sh
 	packer build --force \
 		-var version=22.04 \
 		-var iso=ubuntu-22.04.2-live-server-arm64.iso \
@@ -363,7 +363,7 @@ ubuntu-22-tart:
 
 .PHONY: ubuntu-23-tart
 ubuntu-23-tart:
-	scripts/prepare_ubuntu-23.04.sh
+	scripts/download_ubuntu-23.04.sh
 	packer build --force \
 		-var version=23.04 \
 		-var iso=ubuntu-23.04-live-server-arm64.iso \
@@ -380,28 +380,28 @@ webserver:
 
 .PHONY: debian-tart-http
 debian-tart-http:
-	scripts/prepare_debian-11.sh
+	scripts/download_debian-11.sh
 	$(MAKE) webserver
 	packer build --force debian-arm64.tart.http.pkr.hcl
 	$(MAKE) kill-webserver
 
 .PHONY: fedora-tart-http
 fedora-tart-http:
-	scripts/prepare_fedora-38.sh
+	scripts/download_fedora-38.sh
 	$(MAKE) webserver
 	packer build --force fedora-arm64.tart.http.pkr.hcl
 	$(MAKE) kill-webserver
 
 .PHONY: rocky-tart-http
 rocky-tart-http:
-	scripts/prepare_rocky-9.2.sh
+	scripts/download_rocky-9.2.sh
 	$(MAKE) webserver
 	packer build --force rocky-arm64.tart.http.pkr.hcl
 	$(MAKE) kill-webserver
 
 .PHONY: rocky-9.2-tart-http
 rocky-9.2-tart-http:
-	scripts/prepare_rocky-9.2.sh
+	scripts/download_rocky-9.2.sh
 	$(MAKE) webserver
 	packer build --force \
 		-var version="9.2" \
@@ -411,14 +411,14 @@ rocky-9.2-tart-http:
 
 .PHONY: ubuntu-tart-http
 ubuntu-tart-http:
-	scripts/prepare_ubuntu-22.04.sh
+	scripts/download_ubuntu-22.04.sh
 	$(MAKE) webserver
 	packer build --force ubuntu-arm64.tart.http.pkr.hcl
 	$(MAKE) kill-webserver
 
 .PHONY: ubuntu-22-tart-http
 ubuntu-22-tart-http:
-	scripts/prepare_ubuntu-22.04.sh
+	scripts/download_ubuntu-22.04.sh
 	$(MAKE) webserver
 	packer build --force \
 		-var version=22.04 \
@@ -428,7 +428,7 @@ ubuntu-22-tart-http:
 
 .PHONY: ubuntu-23-tart-http
 ubuntu-23-tart-http:
-	scripts/prepare_ubuntu-22.04.sh
+	scripts/download_ubuntu-22.04.sh
 	$(MAKE) webserver
 	packer build --force \
 		-var version=23.04 \

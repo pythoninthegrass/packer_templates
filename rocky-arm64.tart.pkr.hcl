@@ -20,7 +20,7 @@
 
 # Requires macOS Ventura 13.4
 #
-# Must run 'scripts/prepare_rocky-9.2.sh' first to download the ISO and generate another ISO with the anaconda-ks.cfg
+# Must run 'scripts/download_rocky-9.2.sh' first to download the ISO and generate another ISO with the anaconda-ks.cfg
 #
 # 'packer' command must be run from the same directory as this file so the ISO files are found under iso/
 
