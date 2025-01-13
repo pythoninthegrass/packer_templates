@@ -21,7 +21,7 @@ timestamp(){
     printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
 }
 
-timestamp "Yum Update Packages script starting..."
+timestamp "Yum System Packages Update script starting..."
 echo
 
 sudo=""
@@ -29,9 +29,7 @@ if [ "$EUID" -ne 0 ]; then
     sudo=sudo
 fi
 
-timestamp "Updating Yum system packages"
-echo
 $sudo yum update -y
 echo
 
-timestamp "Packages updated - make sure to call 'final.sh' script to clean out the yum caches at end of build"
+timestamp "Yum System Packages updated - make sure to call 'final.sh' script to clean out the yum caches at end of build"
