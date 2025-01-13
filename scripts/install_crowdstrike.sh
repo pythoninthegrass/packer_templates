@@ -24,12 +24,6 @@ timestamp(){
 timestamp "CrowdStrike Install script starting..."
 echo
 
-date
-echo
-
-uname -a
-echo
-
 sudo=""
 if [ "$EUID" -ne 0 ]; then
     timestamp "Not running as root, prefixing 'sudo' to commands that need root privileges"
