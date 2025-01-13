@@ -60,4 +60,4 @@ echo "Creating '$iso'"
 hdiutil makehybrid -o "$iso" "$cidata" -joliet -iso
 echo
 
-echo "Ubunto ISOs prepared"
+echo "Ubunto ISO ready: $iso"
