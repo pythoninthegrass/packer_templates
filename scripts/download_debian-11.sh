@@ -49,4 +49,4 @@ echo "Creating '$iso'"
 hdiutil makehybrid -o "$iso" "$cidata" -joliet -iso
 echo
 
-echo "Debian ISO ready"
+echo "Debian ISO ready: $iso"
