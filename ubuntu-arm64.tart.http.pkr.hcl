@@ -16,7 +16,7 @@
 
 # Requires macOS Ventura 13.4
 #
-# Must run 'scripts/prepare-ubuntu-22.04.sh' first to download the ISO and generate another ISO with the AutoInstaller config
+# Must run 'scripts/download_ubuntu-22.04.sh' first to download the ISO and generate another ISO with the AutoInstaller config
 #
 # Must run 'python3 -m http.server -d installers' from this same directory before running 'packer'
 #
