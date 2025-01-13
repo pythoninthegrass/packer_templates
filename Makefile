@@ -479,9 +479,9 @@ kickstart-lint:
 preseed-lint:
 	docker run -ti -v "$$PWD:/pwd" -w /pwd -e DEBIAN_FRONTEND=noninteractive debian:latest bash -c 'apt-get update && apt-get install debconf -y && echo && debconf-set-selections -c installers/preseed.cfg'
 
-.PHONY: prepare
-prepare:
-	for script in scripts/prepare-*.sh; do $$script; done
+.PHONY: download
+download:
+	for script in scripts/downoad-*.sh; do $$script; done
 
 .PHONY: test
 test:
