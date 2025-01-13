@@ -51,4 +51,4 @@ echo "Creating '$iso'"
 hdiutil makehybrid -o "$iso" "$cidata" -joliet -iso
 echo
 
-echo "Fedora ISOs prepared"
+echo "Fedora ISO ready"
