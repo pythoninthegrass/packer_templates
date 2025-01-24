@@ -25,7 +25,7 @@ on:
       - master
       - main
     paths:
-      - preseed.cfg
+      - '**/preseed.cfg'
       - .github/workflows/preseed.yaml  # this workflow
 
   pull_request:
