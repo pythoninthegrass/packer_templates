@@ -19,7 +19,7 @@
 ---
 name: HashiCorp Packer HCL
 
-on:
+on:  # yamllint disable-line rule:truthy
   push:
     branches:
       - master
