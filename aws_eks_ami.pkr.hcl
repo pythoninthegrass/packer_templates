@@ -151,11 +151,11 @@ variable "volume_type" {
 #}
 
 data "amazon-ami" "result" {
-  assume_role = {
-    external_id  = "EXTERNAL_ID"
-    role_arn     = var.packer_role
-    session_name = "Packer"
-  }
+  #assume_role = {
+  #  external_id  = "EXTERNAL_ID"
+  #  role_arn     = var.packer_role
+  #  session_name = "Packer"
+  #}
   filters = {
     architecture        = var.ami_source_arch
     # can't compose variables except in locals and can't reference locals in data{}
@@ -221,7 +221,8 @@ source "amazon-ebs" "eks_ami" {
   # ensure filesystem is fsync'd
   #shutdown_command = "echo 'packer' | sudo -S shutdown -P now"
   # ec2-user should have passwordless sudo
-  shutdown_command = "sudo -S shutdown -P now"
+  # not valid here
+  #shutdown_command = "sudo -S shutdown -P now"
   tags = local.tags
 }
 
