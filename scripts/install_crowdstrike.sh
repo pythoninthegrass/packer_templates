@@ -27,17 +27,17 @@ CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.1
 # used to fetch secret from AWS Secrets Manager if CROWDSTRIKE_FALCON_SENSOR_SECRET environment variable is not set in the local environment
 CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET="${CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-crowdstrike}"
 
-cloudstrike_falcon_sensor_secret="${CROWDSTRIKE_FALCON_SENSOR_SECRET:-}"
+crowdstrike_falcon_sensor_secret="${CROWDSTRIKE_FALCON_SENSOR_SECRET:-}"
 
 CROWDSTRIKE_FALCON_SENSOR_RPM="${CROWDSTRIKE_FALCON_SENSOR_RPM:-falcon-sensor-$CROWDSTRIKE_FALCON_SENSOR_VERSION.AmazonLinux-2.rpm}"
 
-timestamp "Installing CloudStrike Falcon Sensor RPM: $CROWDSTRIKE_FALCON_SENSOR_RPM"
+timestamp "Installing CrowdStrike Falcon Sensor RPM: $CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
 # shellcheck disable=SC2154
 $sudo yum install -y "$CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
 
-if [ -z "$cloudstrike_falcon_sensor_secret" ]; then
+if [ -z "$crowdstrike_falcon_sensor_secret" ]; then
     timestamp "CROWDSTRIKE_FALCON_SENSOR_SECRET not set in environment, will attempt to fetch it from AWS Secrets Manager"
     echo
     if [ -n "${CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-}" ]; then
@@ -47,13 +47,13 @@ if [ -z "$cloudstrike_falcon_sensor_secret" ]; then
             $sudo yum install -y jq
             echo
         fi
-        timestamp "Fetching CloudStrike Falcon Sensor secret from AWS Secrets Manager: $CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET"
+        timestamp "Fetching CrowdStrike Falcon Sensor secret from AWS Secrets Manager: $CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET"
         echo
-        cloudstrike_falcon_sensor_secret="$(
+        crowdstrike_falcon_sensor_secret="$(
             aws secretsmanager get-secret-value --secret-id "$CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET" |
             jq -r '.SecretString // ""'
         )"
-        if [ -z "$cloudstrike_falcon_sensor_secret" ]; then
+        if [ -z "$crowdstrike_falcon_sensor_secret" ]; then
             timestamp "ERROR: failed to find CROWDSTRIKE_FALCON_SENSOR_SECRET in AWS Secrets Manager secret '$CROWDSTRIKE_FALCON_SENSOR_SECRET'"
             exit 1
         fi
@@ -66,7 +66,7 @@ fi
 echo
 
 timestamp "Configuring CrowdStrike with Falcon Sensor secret..."
-$sudo /opt/CrowdStrike/falconctl -s -f --cid="$cloudstrike_falcon_sensor_secret"
+$sudo /opt/CrowdStrike/falconctl -s -f --cid="$crowdstrike_falcon_sensor_secret"
 echo
 timestamp "Starting Falcon Sensor..."
 echo
