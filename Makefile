@@ -84,14 +84,25 @@ all:
 
 AWS_EKS_PACKER := aws_eks_ami.pkr.hcl
 
+EKS_VERSION := 1.28
+
+# set these to your environment
+#export AWS_PROFILE=cicd
+#export AWS_CONFIG_FILE=../aws/configs.ini
+export AWS_REGION=eu-west-1
+export AWS_DEFAULT_REGION=eu-west-1
+
+#VPC_ID := vpc-xxxxxxxxxxxxxxxxx
+#SUBNET_ID := subnet-xxxxxxxxxxxxxxxxx
+
 .PHONY: aws-eks
 aws-eks:
 	packer init "$(AWS_EKS_PACKER)"
 	packer build \
-		-var eks_version=1.28 \
-		-var aws_region=eu-west-1 \
-		-var vpc_id=... \
-		-var subnet_id=... \
+		-var eks_version="$(EKS_VERSION)" \
+		-var aws_region="$(AWS_REGION)" \
+		-var vpc_id="$(VPC_ID)" \
+		-var subnet_id="$(SUBNET_ID)" \
 		"$(AWS_EKS_PACKER)"
 
 .PHONY: debian
