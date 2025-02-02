@@ -22,11 +22,6 @@ source "/tmp/packer/lib/utils.sh"
 timestamp "Yum System Packages Update script starting..."
 echo
 
-sudo=""
-if [ "$EUID" -ne 0 ]; then
-    sudo=sudo
-fi
-
 $sudo yum update -y
 echo
 
