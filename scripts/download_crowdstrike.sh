@@ -16,10 +16,8 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
-# borrowed from https://github.com/HariSekhon/DevOps-Bash-tools/blob/master/lib/utils.sh
-timestamp(){
-    printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
-}
+# shellcheck disable=SC1091
+source "/tmp/packer/lib/utils.sh"
 
 timestamp "Downloading CrowdStrike RPM..."
 echo
@@ -29,8 +27,7 @@ export CROWDSTRIKE_S3_BUCKET_DIR="${CROWDSTRIKE_S3_BUCKET_DIR:-crowdstrike}"
 
 if [ -z "${CROWDSTRIKE_S3_BUCKET:-}" ]; then
     timestamp "CROWDSTRIKE_S3_BUCKET environment variable is not set to the name of the bucket where the CROWDSTRIKE_FALCON_SENSOR_RPM has been downloaded to"
-    timestamp "Aborting..."
-    exit 1
+    die "Aborting..."
 fi
 
 CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.17.0-17005}}"
