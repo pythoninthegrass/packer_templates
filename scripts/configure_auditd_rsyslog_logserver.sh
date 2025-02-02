@@ -19,7 +19,11 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "/tmp/packer/lib/lib.sh"
 
-logserver="$1"
+logserver="${1:-}"  # XXX: Edit to default to your environment syslog server IP
+
+if [ -z "$logserver" ]; then
+    die "Logserver address not set and not given as arg"
+fi
 
 # Amazon Linux 2
 auditd_syslog_conf="/etc/audisp/plugins.d/syslog.conf"
