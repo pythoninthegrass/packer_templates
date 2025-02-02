@@ -16,20 +16,11 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
-# borrowed from https://github.com/HariSekhon/DevOps-Bash-tools/blob/master/lib/utils.sh
-timestamp(){
-    printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
-}
+# shellcheck disable=SC1091
+source "/tmp/packer/lib/lib.sh"
 
 timestamp "CrowdStrike Install script starting..."
 echo
-
-sudo=""
-if [ "$EUID" -ne 0 ]; then
-    timestamp "Not running as root, prefixing 'sudo' to commands that need root privileges"
-    echo
-    sudo=sudo
-fi
 
 CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.17.0-17005}}"
 
@@ -42,6 +33,7 @@ CROWDSTRIKE_FALCON_SENSOR_RPM="${CROWDSTRIKE_FALCON_SENSOR_RPM:-falcon-sensor-$C
 
 timestamp "Installing CloudStrike Falcon Sensor RPM: $CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
+# shellcheck disable=SC2154
 $sudo yum install -y "$CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
 
