@@ -83,10 +83,10 @@ variable "aws_region" {
   default = env("AWS_DEFAULT_REGION")
 }
 
-variable "aws_packer_role" {
-  type    = string
-  default = ""
-}
+#variable "aws_packer_role" {
+#  type    = string
+#  default = ""
+#}
 
 variable "instance_type" {
   type = string
@@ -108,10 +108,10 @@ variable "ami_root_device_type" {
   default = "ebs"
 }
 
-variable "iam_instance_profile" {
-  type    = string
-  default = "Packer"
-}
+#variable "iam_instance_profile" {
+#  type    = string
+#  default = "Packer"
+#}
 
 variable "encrypt_boot" {
   type    = boolean
@@ -175,11 +175,11 @@ data "amazon-ami" "result" {
 # https://developer.hashicorp.com/packer/integrations/hashicorp/amazon/latest/components/data-source/ami
 # https://developer.hashicorp.com/packer/integrations/hashicorp/amazon/latest/components/builder/ebs
 source "amazon-ebs" "eks_ami" {
-  assume_role = {
-    external_id  = "EXTERNAL_ID"
-    role_arn     = var.aws_packer_role
-    session_name = "Packer"
-  }
+  #assume_role = {
+  #  external_id  = "EXTERNAL_ID"
+  #  role_arn     = var.aws_packer_role
+  #  session_name = "Packer"
+  #}
   #ami_name                = "eks-1-28-custom-ami-{{timestamp}}"
   ami_name                = local.ami_target_name
   ami_description         = local.ami_description
@@ -288,7 +288,7 @@ build {
       "${local.scripts}/install_auditd.sh",
       "${local.scripts}/configure_auditd_rsyslog_logserver.sh",
       "${local.scripts}/install_crowdstrike.sh",
-      "${local.scripts}/install_eks_tools.sh"
+      "${local.scripts}/install_eks_tools.sh",
       "${local.scripts}/final.sh"
     ]
     execute_command = "echo 'packer' | sudo -S -E bash -euo pipefail '{{ .Path }}'"
