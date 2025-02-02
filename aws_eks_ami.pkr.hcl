@@ -207,7 +207,7 @@ source "amazon-ebs" "eks_ami" {
     delete_on_termination = true
     device_name           = "/dev/xvda"
     encrypted             = var.encrypt_boot
-    kms_key_id            = var.ebs_kms_key
+    kms_key_id            = var.kms_key_id
     volume_size           = var.root_volume_size
     volume_type           = var.volume_type
   }
