@@ -22,6 +22,7 @@ source "/tmp/packer/lib/utils.sh"
 timestamp "Yum System Packages Update script starting..."
 echo
 
+# shellcheck disable=SC2154
 $sudo yum update -y
 echo
 
