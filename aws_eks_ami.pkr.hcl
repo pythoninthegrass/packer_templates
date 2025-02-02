@@ -47,6 +47,7 @@ locals {
   #secret_value  = jsondecode(data.amazon-secretsmanager.NAME.secret_string)["packer_test_key"]
 
   tags = {
+    Name        = "Packer Build EKS"
     App         = "MyApp" # XXX: Edit and add relevant tags
     Environment = "Production"
     BuildDate   = "${timestamp()}"
