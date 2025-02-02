@@ -53,7 +53,7 @@ echo
 echo "Diff:"
 echo
 
-$sudo diff "$auditd_syslog_conf.$backup_timestamp" "$auditd_syslog_conf"
+$sudo diff "$auditd_syslog_conf.$backup_timestamp" "$auditd_syslog_conf" || :
 echo
 
 $sudo service auditd restart ||
