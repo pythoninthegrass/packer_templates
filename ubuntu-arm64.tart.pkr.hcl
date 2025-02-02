@@ -131,7 +131,7 @@ build {
   #  inline = [
   #    "cp -fv /var/log/installer/autoinstall-user-data /mnt/virtiofs/",
   #  ]
-  #  execute_command = "echo 'packer' | sudo -S -E bash '{{ .Path }}'"
+  #  execute_command = "echo 'packer' | sudo -S -E bash -euxo pipefail '{{ .Path }}'"
   #}
 
   post-processor "checksum" {
