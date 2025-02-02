@@ -90,6 +90,7 @@ aws-eks:
 	packer build \
 		-var eks_version=1.28 \
 		-var aws_region=eu-west-1 \
+		-var vpc_id=... \
 		"$(AWS_EKS_PACKER)"
 
 .PHONY: debian
