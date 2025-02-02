@@ -133,6 +133,9 @@ or for a specific build:
 make <distro>-<major_version>
 ```
 
+For more details, tips and tricks including how to debug Packer builds, read the
+[Knowledge-Base - Packer](https://github.com/HariSekhon/Knowledge-Base/blob/main/packer.md) page.
+
 ## Packer Template
 
 A heavily documented generic Packer template can be found in the [HariSekhon/Templates](https://github.com/HariSekhon/Templates) repo:
