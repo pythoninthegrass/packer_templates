@@ -16,10 +16,8 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
-# borrowed from https://github.com/HariSekhon/DevOps-Bash-tools/blob/master/lib/utils.sh
-timestamp(){
-    printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
-}
+# shellcheck disable=SC1091
+source "/tmp/packer/lib/utils.sh"
 
 timestamp "Yum System Packages Update script starting..."
 echo
