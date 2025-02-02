@@ -167,7 +167,7 @@ data "amazon-ami" "result" {
   }
   most_recent = true
   #owners      = ["${var.ami_source_owner}", "${var.ami_source_owner_govcloud}"]
-  owners      = ["${var.source_ami_owner}"]
+  owners      = [var.ami_source_owner]
   region      = "${var.aws_region}"
 }
 
