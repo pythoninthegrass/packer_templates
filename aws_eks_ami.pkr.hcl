@@ -57,7 +57,7 @@ locals {
   # requires AWS profile / access key to be found, else errors out
   #
   # set second arg to the key if secret had multiple keys, else set to null
-  crowdstrike = aws_secretsmanager("crowdstrike", null)  # always pulls latest version AWSCURRENT, previous versions not supported
+  #crowdstrike = aws_secretsmanager("crowdstrike", null)  # always pulls latest version AWSCURRENT, previous versions not supported
 
   #my_version = "${consul_key("myservice/version")}"
 
@@ -106,10 +106,10 @@ variable "ami_root_device_type" {
   default = "ebs"
 }
 
-#variable "iam_instance_profile" {
-#  type    = string
-#  default = "Packer"
-#}
+variable "iam_instance_profile" {
+  type    = string
+  default = "Packer"
+}
 
 variable "encrypt_boot" {
   type    = bool
