@@ -34,8 +34,6 @@ locals {
   #timestamp        = regex_replace(timestamp(), "[- TZ:]", "")
   #timestamp        = regex_replace(timestamp(), "[ ]", "")
   #ami_target_name  = "amazon-eks-node-${var.eks_version}-al2-${local.timestamp}"
-  ami_source_name  = "amazon-eks-node-${var.eks_version}-*"
-  ami_source_owner = "602401143452"  # Amazon EKS AMI account ID
   ami_target_name  = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"
   ami_description  = "EKS Kubernetes ${var.eks_version} Worker AMI (AmazonLinux2)"
 
@@ -160,14 +158,15 @@ data "amazon-ami" "result" {
   }
   filters = {
     architecture        = var.ami_source_arch
-    name                = local.ami_source_name
+    # can't compose variables except in locals and can't reference locals in data{}
+    name                = "amazon-eks-node-${var.eks_version}-*"
     root-device-type    = var.ami_root_device_type
     virtualization-type = var.ami_virtualization_type
     state               = "available"
   }
   most_recent = true
   #owners      = ["${var.ami_source_owner}", "${var.ami_source_owner_govcloud}"]
-  owners      = [local.ami_source_owner]
+  owners      = ["602401143452"]  # Amazon EKS AMI account ID - can't reference locals in data{}
   region      = "${var.aws_region}"
 }
 
