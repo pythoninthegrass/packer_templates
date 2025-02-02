@@ -91,6 +91,7 @@ aws-eks:
 		-var eks_version=1.28 \
 		-var aws_region=eu-west-1 \
 		-var vpc_id=... \
+		-var subnet_id=... \
 		"$(AWS_EKS_PACKER)"
 
 .PHONY: debian
