@@ -16,6 +16,9 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
+# shellcheck disable=SC1091
+source "/tmp/packer/lib/utils.sh"
+
 timestamp "Installing Auditd"
 echo
 # shellcheck disable=SC2154
