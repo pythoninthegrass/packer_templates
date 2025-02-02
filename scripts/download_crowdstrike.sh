@@ -27,21 +27,22 @@ echo
 export CROWDSTRIKE_S3_BUCKET="${CROWDSTRIKE_S3_BUCKET:-}"  # XXX: Edit with a default custom for your environment
 export CROWDSTRIKE_S3_BUCKET_DIR="${CROWDSTRIKE_S3_BUCKET_DIR:-crowdstrike}"
 
+if [ -z "${CROWDSTRIKE_S3_BUCKET:-}" ]; then
+    timestamp "CROWDSTRIKE_S3_BUCKET environment variable is not set to the name of the bucket where the CROWDSTRIKE_FALCON_SENSOR_RPM has been downloaded to"
+    timestamp "Aborting..."
+    exit 1
+fi
+
 CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.17.0-17005}}"
 
 CROWDSTRIKE_FALCON_SENSOR_RPM="${CROWDSTRIKE_FALCON_SENSOR_RPM:-falcon-sensor-$CROWDSTRIKE_FALCON_SENSOR_VERSION.AmazonLinux-2.rpm}"
 
-CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url="$S3_BUCKET/$CROWDSTRIKE_BUCKET_DIR/$CROWDSTRIKE_FALCON_SENSOR_RPM"
+CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url="$CROWDSTRIKE_S3_BUCKET/$CROWDSTRIKE_BUCKET_DIR/$CROWDSTRIKE_FALCON_SENSOR_RPM"
 
 if ! [ -f "$CROWDSTRIKE_FALCON_SENSOR_RPM" ]; then
     timestamp "RPM not found locally: $CROWDSTRIKE_FALCON_SENSOR_RPM"
     timestamp "Attempting to fetch from S3 Bucket"
     # download the RPM from portal and copy it here
-    if [ -z "${CROWDSTRIKE_S3_BUCKET:-}" ]; then
-        timestamp "CROWDSTRIKE_S3_BUCKET environment variable is not set to the name of the bucket where the CROWDSTRIKE_FALCON_SENSOR_RPM has been downloaded to"
-        timestamp "Aborting..."
-        exit 1
-    fi
 fi
 
 timestamp "Downloading CrowdStrike Falcon Sensor RPM from S3 bucket: $CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url"
