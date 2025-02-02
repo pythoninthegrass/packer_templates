@@ -121,6 +121,11 @@ variable "kms_key_id" {
   default = ""
 }
 
+variable "vpc_id" {
+  type    = string
+  default = ""
+}
+
 variable "subnet_id" {
   type    = string
   default = ""
@@ -217,6 +222,7 @@ source "amazon-ebs" "eks_ami" {
   ssh_username = var.ssh_username
   #subnet_id    = "<your-subnet-id>" # Optional: Specify a subnet if required
   subnet_id   = var.subnet_id
+  vpc_id      = var.vpc_id
   ssh_timeout = "30m" # default: 5m - waits 5 mins for SSH to come up otherwise kills VM
   # ensure filesystem is fsync'd
   #shutdown_command = "echo 'packer' | sudo -S shutdown -P now"
@@ -255,6 +261,12 @@ build {
   #  destination = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
   #  direction   = "upload"
   #}
+
+  provisioner "shell" {
+    inline = [
+      "mkdir -v /tmp/packer",
+    ]
+  }
 
   provisioner "file" {
     source      = "${local.scripts}/lib"
