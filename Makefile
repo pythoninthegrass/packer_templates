@@ -84,7 +84,7 @@ all:
 
 .PHONY: aws-eks
 aws-eks:
-	packer build --force \
+	packer build \
 		-var eks_version=1.28 \
 		-var aws_region=eu-west-1 \
 		aws_eks_ami.pkr.hcl
