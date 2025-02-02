@@ -82,6 +82,13 @@ all:
 	@echo
 	$(MAKE) rocky
 
+.PHONY: aws-eks
+aws-eks:
+	packer build --force \
+		-var eks_version=1.28 \
+		-var aws_region=eu-west-1 \
+		aws_eks_ami.pkr.hcl
+
 .PHONY: debian
 debian:
 	@if [ "$(USE_VBOX)" = 1 ]; then \
