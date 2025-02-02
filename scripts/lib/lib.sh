@@ -18,6 +18,11 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
+die(){
+    echo "$@" >&2
+    exit 1
+}
+
 timestamp(){
     printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
 }
