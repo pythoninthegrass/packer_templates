@@ -29,13 +29,13 @@ packer {
 }
 
 locals {
-  scripts    = "${path.root}/scripts"
+  scripts = "${path.root}/scripts"
 
   #timestamp        = regex_replace(timestamp(), "[- TZ:]", "")
   #timestamp        = regex_replace(timestamp(), "[ ]", "")
   #ami_target_name  = "amazon-eks-node-${var.eks_version}-al2-${local.timestamp}"
-  ami_target_name  = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"
-  ami_description  = "EKS Kubernetes ${var.eks_version} Worker AMI (AmazonLinux2)"
+  ami_target_name = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"
+  ami_description = "EKS Kubernetes ${var.eks_version} Worker AMI (AmazonLinux2)"
 
   # locals can access data sources but data sources cannot access locals, to prevent circular dependencies
   #source_ami_id   = data.amazon-ami.ubuntu.id
@@ -47,7 +47,7 @@ locals {
   #secret_value  = jsondecode(data.amazon-secretsmanager.NAME.secret_string)["packer_test_key"]
 
   tags = {
-    App         = "MyApp"  # XXX: Edit and add relevant tags
+    App         = "MyApp" # XXX: Edit and add relevant tags
     Environment = "Production"
     BuildDate   = "${timestamp()}"
   }
@@ -69,7 +69,7 @@ locals {
 variable "eks_version" {
   type        = string
   default     = "1.28"
-	description = "Version of AWS EKS Kubernetes (important for Kubelet => Master compatibility)"
+  description = "Version of AWS EKS Kubernetes (important for Kubelet => Master compatibility)"
   validation {
     # regex(...) fails if it cannot find a match
     condition     = can(regex("^\\d+\\.\\d+$", var.eks_version))
@@ -87,7 +87,7 @@ variable "aws_region" {
 #}
 
 variable "instance_type" {
-  type = string
+  type    = string
   default = "t3.micro"
 }
 
@@ -113,12 +113,12 @@ variable "iam_instance_profile" {
 
 variable "encrypt_boot" {
   type    = bool
-  default = false  # must set kms_key_id if true
+  default = false # must set kms_key_id if true
 }
 
 variable "kms_key_id" {
   type    = string
-  default = "Packer"
+  default = ""
 }
 
 variable "subnet_id" {
@@ -133,7 +133,7 @@ variable "ssh_username" {
 
 variable "root_volume_size" {
   type    = string
-  default = "100"  # GB
+  default = "100" # GB
 }
 
 variable "volume_type" {
@@ -157,7 +157,7 @@ data "amazon-ami" "result" {
   #  session_name = "Packer"
   #}
   filters = {
-    architecture        = var.ami_source_arch
+    architecture = var.ami_source_arch
     # can't compose variables except in locals and can't reference locals in data{}
     name                = "amazon-eks-node-${var.eks_version}-*"
     root-device-type    = var.ami_root_device_type
@@ -166,8 +166,8 @@ data "amazon-ami" "result" {
   }
   most_recent = true
   #owners      = ["${var.ami_source_owner}", "${var.ami_source_owner_govcloud}"]
-  owners      = ["602401143452"]  # Amazon EKS AMI account ID - can't reference locals in data{}
-  region      = "${var.aws_region}"
+  owners = ["602401143452"] # Amazon EKS AMI account ID - can't reference locals in data{}
+  region = "${var.aws_region}"
 }
 
 # https://developer.hashicorp.com/packer/integrations/hashicorp/amazon
@@ -200,9 +200,9 @@ source "amazon-ebs" "eks_ami" {
   #    #"${var.source_ami_owner}", "${var.source_ami_owner_govcloud}"
   #    ]
   #}
-  encrypt_boot            = var.encrypt_boot
-  iam_instance_profile    = var.iam_instance_profile
-  kms_key_id              = var.kms_key_id
+  encrypt_boot         = var.encrypt_boot
+  iam_instance_profile = var.iam_instance_profile
+  kms_key_id           = var.kms_key_id
   launch_block_device_mappings {
     delete_on_termination = true
     device_name           = "/dev/xvda"
@@ -211,13 +211,13 @@ source "amazon-ebs" "eks_ami" {
     volume_size           = var.root_volume_size
     volume_type           = var.volume_type
   }
-  ssh_pty      = true
+  ssh_pty = true
   #ssh_username = "packer"
   #ssh_password = "packer"
   ssh_username = var.ssh_username
   #subnet_id    = "<your-subnet-id>" # Optional: Specify a subnet if required
-  subnet_id    = var.subnet_id
-  ssh_timeout  = "30m" # default: 5m - waits 5 mins for SSH to come up otherwise kills VM
+  subnet_id   = var.subnet_id
+  ssh_timeout = "30m" # default: 5m - waits 5 mins for SSH to come up otherwise kills VM
   # ensure filesystem is fsync'd
   #shutdown_command = "echo 'packer' | sudo -S shutdown -P now"
   # ec2-user should have passwordless sudo
@@ -240,21 +240,21 @@ build {
   }
 
   # Download CrowdStrike RPM from pre-staged S3 bucket
-  provisioner "shell-local" {
-    script = "${local.scripts}/download_crowdstrike.sh"
-    execute_command = "bash -euo pipefail '{{ .Path }}' '${local.crowdstrike_version}'"
-    environment_vars = [
-      "AWS_PROFILE=cicd",  # the profile that has the permissions to download the RPM
-      "AWS_CONFIG_FILE=../../aws/cicd/config.ini"
-    ]
-  }
+  #provisioner "shell-local" {
+  #  script = "${local.scripts}/download_crowdstrike.sh"
+  #  execute_command = "bash -euo pipefail '{{ .Path }}' '${local.crowdstrike_version}'"
+  #  environment_vars = [
+  #    "AWS_PROFILE=cicd",  # the profile that has the permissions to download the RPM
+  #    "AWS_CONFIG_FILE=../../aws/cicd/config.ini"
+  #  ]
+  #}
 
   # Upload CrowdStrike RPM to EC2 VM of AMI build
-  provisioner "file" {
-    source      = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
-    destination = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
-    direction   = "upload"
-  }
+  #provisioner "file" {
+  #  source      = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
+  #  destination = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
+  #  direction   = "upload"
+  #}
 
   provisioner "file" {
     source      = "${local.scripts}/lib"
@@ -300,9 +300,9 @@ build {
 
   # post-processor blocks run in parallel
   #
-  post-processor "checksum" {               # checksum image
-    checksum_types      = ["md5", "sha512"] # checksum the artifact
-    keep_input_artifact = true              # keep the artifact
-    output              = "output-{{.BuildName}}/{{.BuildName}}.{{.ChecksumType}}"  # default: packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum, at top level not in the directory with the .ova, and it keeps appending to it
+  post-processor "checksum" {                                                      # checksum image
+    checksum_types      = ["md5", "sha512"]                                        # checksum the artifact
+    keep_input_artifact = true                                                     # keep the artifact
+    output              = "output-{{.BuildName}}/{{.BuildName}}.{{.ChecksumType}}" # default: packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum, at top level not in the directory with the .ova, and it keeps appending to it
   }
 }
