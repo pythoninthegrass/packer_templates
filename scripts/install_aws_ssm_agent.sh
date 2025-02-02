@@ -22,17 +22,21 @@ source "/tmp/packer/lib/utils.sh"
 timestamp "Installing AWS SSM Agent"
 echo
 # shellcheck disable=SC2154
+rpm -q amazon-ssm-agent ||
 $sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 echo
 
 timestamp "Enabling AWS SSM Agent"
 echo
+$sudo chkconfig amazon-ssm-agent on ||
 $sudo systemctl enable amazon-ssm-agent
 echo
 
 timestamp "(Re)Starting AWS SSM Agent"
 echo
+$sudo service amazon-ssm-agent restart ||
 $sudo systemctl restart amazon-ssm-agent
 echo
 
+$sudo service amazon-ssm-agent status ||
 $sudo systemctl status amazon-ssm-agent
