@@ -16,20 +16,12 @@
 set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
-# borrowed from https://github.com/HariSekhon/DevOps-Bash-tools/blob/master/lib/utils.sh
-timestamp(){
-    printf "%s  %s\n" "$(date '+%F %T')" "$*" >&2
-}
-
-sudo=""
-if [ "$EUID" -ne 0 ]; then
-    timestamp "Not running as root, prefixing 'sudo' to commands that need root privileges"
-    echo
-    sudo=sudo
-fi
+# shellcheck disable=SC1091
+source "/tmp/packer/lib/lib.sh"
 
 timestamp "Installing AWS SSM Agent"
 echo
+# shellcheck disable=SC2154
 $sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 echo
 $sudo systemctl status amazon-ssm-agent
