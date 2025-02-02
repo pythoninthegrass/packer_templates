@@ -114,7 +114,7 @@ variable "ami_root_device_type" {
 #}
 
 variable "encrypt_boot" {
-  type    = boolean
+  type    = bool
   default = false  # must set kms_key_id if true
 }
 
