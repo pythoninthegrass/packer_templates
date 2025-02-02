@@ -17,7 +17,7 @@ set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 
 # shellcheck disable=SC1091
-source "/tmp/packer/lib/lib.sh"
+source "/tmp/packer/lib/utils.sh"
 
 logserver="${1:-}"  # XXX: Edit to default to your environment syslog server IP
 
