@@ -32,10 +32,9 @@ locals {
   scripts = "${path.root}/scripts"
 
   #timestamp        = regex_replace(timestamp(), "[- TZ:]", "")
-  #timestamp        = regex_replace(timestamp(), "[ ]", "")
-  #ami_target_name  = "amazon-eks-node-${var.eks_version}-al2-${local.timestamp}"
-  #ami_target_name = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"
-  ami_target_name = "amazon-eks-node-${var.eks_version}-custom-${timestamp()}"}"
+  timestamp        = regex_replace(timestamp(), "[ ]", "")
+  #ami_target_name = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"  # epoch
+  ami_target_name  = "amazon-eks-node-${var.eks_version}-custom-${local.timestamp}"
   ami_description = "EKS Kubernetes ${var.eks_version} Worker AMI (AmazonLinux2)"
 
   # locals can access data sources but data sources cannot access locals, to prevent circular dependencies
