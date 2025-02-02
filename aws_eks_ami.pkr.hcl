@@ -288,7 +288,7 @@ build {
       "${local.scripts}/install_auditd.sh",
       "${local.scripts}/configure_auditd_rsyslog_logserver.sh",
       "${local.scripts}/install_crowdstrike.sh",
-      "${local.scripts}/install_eks_tools.sh",
+      #"${local.scripts}/install_eks_tools.sh",
       "${local.scripts}/final.sh"
     ]
     execute_command = "echo 'packer' | sudo -S -E bash -euo pipefail '{{ .Path }}'"
