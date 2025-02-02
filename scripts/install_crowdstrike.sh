@@ -31,65 +31,43 @@ if [ "$EUID" -ne 0 ]; then
     sudo=sudo
 fi
 
-# In case you have to pull the Falcon Sensor secret from AWS Secrets Manager
-export AWS_DEFAULT_REGION="${AWS_DEFAULT_REGION:-eu-west-1}"
-export AWS_REGION="$AWS_DEFAULT_REGION"
+CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.17.0-17005}}"
 
-CLOUDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CLOUDSTRIKE_FALCON_SENSOR_VERSION:-7.17.0-17005}}"
+# used to fetch secret from AWS Secrets Manager if CROWDSTRIKE_FALCON_SENSOR_SECRET environment variable is not set in the local environment
+CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET="${CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-crowdstrike}"
 
-# used to fetch secret from AWS Secrets Manager if CLOUDSTRIKE_FALCON_SENSOR_SECRET environment variable is not set in the local environment
-CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET="${CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-crowdstrike}"
+cloudstrike_falcon_sensor_secret="${CROWDSTRIKE_FALCON_SENSOR_SECRET:-}"
 
-cloudstrike_falcon_sensor_secret="${CLOUDSTRIKE_FALCON_SENSOR_SECRET:-}"
+CROWDSTRIKE_FALCON_SENSOR_RPM="${CROWDSTRIKE_FALCON_SENSOR_RPM:-falcon-sensor-$CROWDSTRIKE_FALCON_SENSOR_VERSION.AmazonLinux-2.rpm}"
 
-cloudstrike_falcon_sensor_rpm="falcon-sensor-$CLOUDSTRIKE_FALCON_SENSOR_VERSION.AmazonLinux-2.rpm"
-
-cloudstrike_falcon_sensor_rpm_s3_url="$S3_BUCKET/${CROWDSTRIKE_BUCKET_DIR:-cloudstrike}/$cloudstrike_falcon_sensor_rpm"
-
-if ! [ -f "$cloudstrike_falcon_sensor_rpm" ]; then
-    timestamp "RPM not found locally: $cloudstrike_falcon_sensor_rpm"
-    timestamp "Attempting to fetch from S3 Bucket"
-    # download the RPM from portal and copy it here
-    if [ -z "${S3_INSTALLABLES_BUCKET:-}" ]; then
-        timestamp "S3_INSTALLABLES_BUCKET environment variable is not set to the name of the bucket where the falcon-sensor-<version>.AmazonLinux-2.rpm has been downloaded to"
-        timestamp "Aborting..."
-        exit 1
-    fi
-fi
-
-timestamp "Downloading CloudStrike Falcon Sensor RPM from S3 bucket: $cloudstrike_falcon_sensor_rpm_s3_url"
+timestamp "Installing CloudStrike Falcon Sensor RPM: $CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
-aws s3 cp "$cloudstrike_falcon_sensor_rpm_s3_url" .
-echo
-
-timestamp "Installing CloudStrike Falcon Sensor RPM: $cloudstrike_falcon_sensor_rpm"
-echo
-$sudo yum install -y "$cloudstrike_falcon_sensor_rpm"
+$sudo yum install -y "$CROWDSTRIKE_FALCON_SENSOR_RPM"
 echo
 
 if [ -z "$cloudstrike_falcon_sensor_secret" ]; then
-    timestamp "CLOUDSTRIKE_FALCON_SENSOR_SECRET not set in environment, will attempt to fetch it from AWS Secrets Manager"
+    timestamp "CROWDSTRIKE_FALCON_SENSOR_SECRET not set in environment, will attempt to fetch it from AWS Secrets Manager"
     echo
-    if [ -n "${CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-}" ]; then
+    if [ -n "${CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-}" ]; then
         if ! type -P jq &>/dev/null; then
             timestamp "Installing jq to parse AWS Secrets Manager secret"
             echo
             $sudo yum install -y jq
             echo
         fi
-        timestamp "Fetching CloudStrike Falcon Sensor secret from AWS Secrets Manager: $CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET"
+        timestamp "Fetching CloudStrike Falcon Sensor secret from AWS Secrets Manager: $CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET"
         echo
         cloudstrike_falcon_sensor_secret="$(
-            aws secretsmanager get-secret-value --secret-id "$CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET" |
+            aws secretsmanager get-secret-value --secret-id "$CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET" |
             jq -r '.SecretString // ""'
         )"
         if [ -z "$cloudstrike_falcon_sensor_secret" ]; then
-            timestamp "ERROR: failed to find CLOUDSTRIKE_FALCON_SENSOR_SECRET in AWS Secrets Manager secret '$CLOUDSTRIKE_FALCON_SENSOR_SECRET'"
+            timestamp "ERROR: failed to find CROWDSTRIKE_FALCON_SENSOR_SECRET in AWS Secrets Manager secret '$CROWDSTRIKE_FALCON_SENSOR_SECRET'"
             exit 1
         fi
     else
-        timestamp "ERROR: CLOUDSTRIKE_FALCON_SENSOR_SECRET environment variable is not set"
-        timestamp "and there is no CLOUDSTRIKE_AWS_SECRETS_MANAGER_SECRET set to pull from either, exiting..." >&2
+        timestamp "ERROR: CROWDSTRIKE_FALCON_SENSOR_SECRET environment variable is not set"
+        timestamp "and there is no CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET set to pull from either, exiting..." >&2
         exit 1
     fi
 fi
