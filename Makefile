@@ -86,7 +86,7 @@ AWS_EKS_PACKER := aws_eks_ami.pkr.hcl
 
 EKS_VERSION := 1.28
 
-# set these to your environment
+# XXX: Configure to your environment
 #export AWS_PROFILE=cicd
 #export AWS_CONFIG_FILE=../aws/configs.ini
 export AWS_REGION=eu-west-1
