@@ -289,11 +289,6 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo Build UUID: ${build.PackerRunUUID}",
-      "echo Source '${source.name}' type '${source.type}'",
-      "echo",
-      "env | grep PACKER || :",
-      "echo",
       "echo OS:",
       "echo",
       "cat /etc/*release",
