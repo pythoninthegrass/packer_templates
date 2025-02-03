@@ -70,7 +70,7 @@ You must install your virtualization system before running Packer.
 
 The following builds are provided for these combinations of Linux distros, arches and virtualization systems:
 
-- [AWS](https://aws.com)
+- [AWS AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html)
   - x86_64:
     - [aws_eks.amazonlinux2.x86_64.pkr.hcl](https://github.com/HariSekhon/Packer/blob/main/aws_eks.amazonlinux2.x86_64.pkr.hcl)
 - [VirtualBox](https://www.virtualbox.org/)
