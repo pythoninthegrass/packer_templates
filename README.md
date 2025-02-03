@@ -45,9 +45,9 @@
 [![Debian Preseed](https://github.com/HariSekhon/Packer/actions/workflows/preseed.yaml/badge.svg)](https://github.com/HariSekhon/Packer/actions/workflows/preseed.yaml)
 [![Ubuntu AutoInstall Cloud-Init](https://github.com/HariSekhon/Packer/actions/workflows/autoinstall-user-data.yaml/badge.svg)](https://github.com/HariSekhon/Packer/actions/workflows/autoinstall-user-data.yaml)
 
-Packer templates for building portable OVA virtual machines images.
+Packer templates for building AWS AMI and portable OVA virtual machines images.
 
-Useful for IoT edge sites, [Kubernetes](https://github.com/HariSekhon/Kubernetes-configs) base servers etc.
+Useful for AWS EC2 & EKS, IoT edge sites, [Kubernetes](https://github.com/HariSekhon/Kubernetes-configs) base servers etc.
 
 Bare metal servers can be installed using each Linux distro's native [automated installers](https://github.com/HariSekhon/Packer/tree/main/installers).
 
@@ -55,6 +55,7 @@ Virtual Machines as appliances in portable OVA format are 100% automated using t
 
 The primary templates are for the main Linux distributions:
 
+- Amazon Linux - based off existing AMI
 - Ubuntu - using Ubuntu [AutoInstaller](https://github.com/HariSekhon/Packer/blob/main/installers/autoinstall-user-data)
 - Debian - using Debian [Preseeding](https://github.com/HariSekhon/Packer/blob/main/installers/preseed.cfg)
 - Redhat - using Redhat [Kickstart](https://github.com/HariSekhon/Packer/blob/main/installers/anaconda-ks.cfg)
@@ -69,6 +70,9 @@ You must install your virtualization system before running Packer.
 
 The following builds are provided for these combinations of Linux distros, arches and virtualization systems:
 
+- [AWS](https://aws.com)
+  - x86_64:
+    - [aws_eks.amazonlinux2.x86_64.pkr.hcl](https://github.com/HariSekhon/Packer/blob/main/aws_eks.amazonlinux2.x86_64.pkr.hcl)
 - [VirtualBox](https://www.virtualbox.org/)
   - x86_64:
     - [debian-x86_64.vbox.pkr.hcl](https://github.com/HariSekhon/Packer/blob/main/debian-x86_64.vbox.pkr.hcl)
