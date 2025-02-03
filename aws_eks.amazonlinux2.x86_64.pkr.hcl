@@ -326,10 +326,9 @@ build {
 
   # post-processor blocks run in parallel
   #
-  # doesn't work on AMI builds, PACKER_LOG=1 shows 0 artifacts create to checksum
-  #post-processor "checksum" {                                                      # checksum image
-  #  checksum_types      = ["md5", "sha512"]                                        # checksum the artifact
-  #  keep_input_artifact = true                                                     # keep the artifact
-  #  output              = "output-{{.BuildName}}/{{.BuildName}}.{{.ChecksumType}}" # default: packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum, at top level not in the directory with the .ova, and it keeps appending to it
-  #}
+  post-processor "checksum" {                                                      # checksum image
+    checksum_types      = ["md5", "sha512"]                                        # checksum the artifact
+    keep_input_artifact = true                                                     # keep the artifact
+    output              = "output-{{.BuildName}}/{{.BuildName}}.{{.ChecksumType}}" # default: packer_{{.BuildName}}_{{.BuilderType}}_{{.ChecksumType}}.checksum, at top level not in the directory with the .ova, and it keeps appending to it
+  }
 }
