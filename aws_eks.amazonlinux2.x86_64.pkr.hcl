@@ -312,6 +312,7 @@ build {
     scripts = [
       "${local.scripts}/yum_update_packages.sh",
       "${local.scripts}/install_aws_ssm_agent.sh",
+      "${local.scripts}/install_ntpd.sh",
       "${local.scripts}/install_auditd.sh",
       "${local.scripts}/configure_auditd_rsyslog_logserver.sh",
       #"${local.scripts}/install_eks_tools.sh",
