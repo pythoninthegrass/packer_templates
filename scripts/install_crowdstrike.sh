@@ -78,5 +78,4 @@ $sudo service falcon-sensor start
 echo
 timestamp "Falcon Sensor version:"
 echo
-#$sudo /opt/CrowdStrike/falconctl -g --version
-/opt/CrowdStrike/falconctl -g --version
+$sudo /opt/CrowdStrike/falconctl -g --version
