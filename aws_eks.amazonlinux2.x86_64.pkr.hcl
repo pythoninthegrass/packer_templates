@@ -299,13 +299,23 @@ build {
     ]
   }
 
+  # can't put this in the next block because the environment is not preserved
+  #provisioner "shell" {
+  #  scripts = [
+  #    "${local.scripts}/install_crowdstrike.sh",
+  #  ]
+  #  # sudo -E is not preserving this secret - let the script sudo instead
+  #  #execute_command = "sudo -E bash -euo pipefail '{{ .Path }}'"
+  #  execute_command = "bash -euo pipefail '{{ .Path }}'"
+  #  environment_vars = ["CROWDSTRIKE_FALCON_SENSOR_SECRET=${local.crowdstrike_secret}"]
+  #}
+
   provisioner "shell" {
     scripts = [
       "${local.scripts}/yum_update_packages.sh",
       "${local.scripts}/install_aws_ssm_agent.sh",
       "${local.scripts}/install_auditd.sh",
       "${local.scripts}/configure_auditd_rsyslog_logserver.sh",
-      "${local.scripts}/install_crowdstrike.sh",
       #"${local.scripts}/install_eks_tools.sh",
       "${local.scripts}/final.sh"
     ]
