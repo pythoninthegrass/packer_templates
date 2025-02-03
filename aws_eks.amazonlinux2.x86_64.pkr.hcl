@@ -247,6 +247,13 @@ build {
     ]
   }
 
+  provisioner "shell" {
+    execute_command = "echo 'packer' | sudo -S -E bash -euo pipefail '{{ .Path }}'"
+    inline = [
+      "mkdir -v /tmp/packer",
+    ]
+  }
+
   # Download CrowdStrike RPM from pre-staged S3 bucket
   #provisioner "shell-local" {
   #  script = "${local.scripts}/download_crowdstrike.sh"
@@ -263,12 +270,6 @@ build {
   #  destination = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
   #  direction   = "upload"
   #}
-
-  provisioner "shell" {
-    inline = [
-      "mkdir -v /tmp/packer",
-    ]
-  }
 
   provisioner "file" {
     source      = "${local.scripts}/lib"
