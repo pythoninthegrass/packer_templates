@@ -80,7 +80,8 @@ variable "eks_version" {
 }
 
 variable "aws_region" {
-  default = env("AWS_DEFAULT_REGION")
+  type    = string
+  default = env("AWS_DEFAULT_REGION") != "" ? env("AWS_DEFAULT_REGION") : "eu-west-1"
 }
 
 #variable "aws_packer_role" {
