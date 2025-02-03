@@ -98,7 +98,7 @@ build {
       "./scripts/collect_preseed.sh",
       "./scripts/final.sh",
     ]
-    execute_command = "echo 'packer' | sudo -S -E bash '{{ .Path }}' '${packer.version}'"
+    execute_command = "{{ .Vars }} echo 'packer' | sudo -S -E bash '{{ .Path }}' '${packer.version}'"
   }
 
   post-processor "checksum" {

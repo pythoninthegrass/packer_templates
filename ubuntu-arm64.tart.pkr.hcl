@@ -124,14 +124,14 @@ build {
       "./scripts/collect_autoinstall_user_data.sh",
       "./scripts/final.sh",
     ]
-    execute_command = "echo 'packer' | sudo -S -E bash '{{ .Path }}' '${packer.version}'"
+    execute_command = "{{ .Vars }} echo 'packer' | sudo -S -E bash '{{ .Path }}' '${packer.version}'"
   }
 
   #provisioner "shell" {
   #  inline = [
   #    "cp -fv /var/log/installer/autoinstall-user-data /mnt/virtiofs/",
   #  ]
-  #  execute_command = "echo 'packer' | sudo -S -E bash -euxo pipefail '{{ .Path }}'"
+  #  execute_command = "{{ .Vars }} echo 'packer' | sudo -S -E bash -euxo pipefail '{{ .Path }}'"
   #}
 
   post-processor "checksum" {

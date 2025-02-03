@@ -249,7 +249,7 @@ build {
 
   provisioner "shell" {
     # don't sudo this one or subsequent commands running as just user will fail
-    execute_command = "bash -euo pipefail '{{ .Path }}'"
+    execute_command = "{{ .Vars }} bash -euo pipefail '{{ .Path }}'"
     inline = [
       "mkdir -v /tmp/packer",
     ]
@@ -268,7 +268,7 @@ build {
   #  scripts = [
   #    "${local.scripts}/download_crowdstrike.sh"
   #  ]
-  #  execute_command = "bash -euo pipefail '{{ .Path }}' '${local.crowdstrike_version}'"
+  #  execute_command = "{{ .Vars }} bash -euo pipefail '{{ .Path }}' '${local.crowdstrike_version}'"
   #  environment_vars = [
   #    "AWS_PROFILE=cicd",  # the profile that has the permissions to download the RPM
   #    "AWS_CONFIG_FILE=../../aws/cicd/config.ini"
@@ -316,7 +316,7 @@ build {
       #"${local.scripts}/install_eks_tools.sh",
       "${local.scripts}/final.sh"
     ]
-    execute_command = "sudo -E bash -euo pipefail '{{ .Path }}'"
+    execute_command = "{{ .Vars }} sudo -E bash -euo pipefail '{{ .Path }}'"
     # max_retries = 5
     # timeout = "5m"
   }
