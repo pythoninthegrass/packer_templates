@@ -248,7 +248,6 @@ build {
   }
 
   provisioner "shell" {
-    execute_command = "echo 'packer' | sudo -S -E bash -euo pipefail '{{ .Path }}'"
     inline = [
       "mkdir -v /tmp/packer",
     ]
@@ -256,7 +255,9 @@ build {
 
   # Download CrowdStrike RPM from pre-staged S3 bucket
   #provisioner "shell-local" {
-  #  script = "${local.scripts}/download_crowdstrike.sh"
+  #  scripts = [
+  #    "${local.scripts}/download_crowdstrike.sh"
+  #  ]
   #  execute_command = "bash -euo pipefail '{{ .Path }}' '${local.crowdstrike_version}'"
   #  environment_vars = [
   #    "AWS_PROFILE=cicd",  # the profile that has the permissions to download the RPM
@@ -306,7 +307,7 @@ build {
       #"${local.scripts}/install_eks_tools.sh",
       "${local.scripts}/final.sh"
     ]
-    execute_command = "echo 'packer' | sudo -S -E bash -euo pipefail '{{ .Path }}'"
+    execute_command = "sudo -E bash -euo pipefail '{{ .Path }}'"
     # max_retries = 5
     # timeout = "5m"
   }
