@@ -175,7 +175,7 @@ data "amazon-ami" "result" {
   most_recent = true
   #owners      = ["${var.ami_source_owner}", "${var.ami_source_owner_govcloud}"]
   owners = ["602401143452"] # Amazon EKS AMI account ID - can't reference locals in data{}
-  region = "${var.aws_region}"
+  region = var.aws_region
 }
 
 # https://developer.hashicorp.com/packer/integrations/hashicorp/amazon
