@@ -241,9 +241,9 @@ build {
 
   provisioner "shell-local" {
     inline = [
-      "env | grep PACKER || :",
       "echo Build UUID: ${build.PackerRunUUID}",
       "echo Source '${source.name}' type '${source.type}'",
+      "env | grep PACKER || :",
     ]
   }
 
