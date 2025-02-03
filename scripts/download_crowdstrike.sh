@@ -44,5 +44,4 @@ fi
 
 timestamp "Downloading CrowdStrike Falcon Sensor RPM from S3 bucket: $CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url"
 echo
-aws s3 cp "$CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url" .
-echo
+aws s3 sync "$CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url" .
