@@ -34,14 +34,18 @@ CROWDSTRIKE_FALCON_SENSOR_VERSION="${1:-${CROWDSTRIKE_FALCON_SENSOR_VERSION:-7.1
 
 CROWDSTRIKE_FALCON_SENSOR_RPM="${CROWDSTRIKE_FALCON_SENSOR_RPM:-falcon-sensor-$CROWDSTRIKE_FALCON_SENSOR_VERSION.AmazonLinux-2.rpm}"
 
-CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url="s3://$CROWDSTRIKE_S3_BUCKET/$CROWDSTRIKE_S3_BUCKET_DIR/$CROWDSTRIKE_FALCON_SENSOR_RPM"
+CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL="s3://$CROWDSTRIKE_S3_BUCKET/$CROWDSTRIKE_S3_BUCKET_DIR/$CROWDSTRIKE_FALCON_SENSOR_RPM"
 
-if ! [ -f "$CROWDSTRIKE_FALCON_SENSOR_RPM" ]; then
-    timestamp "RPM not found locally: $CROWDSTRIKE_FALCON_SENSOR_RPM"
-    timestamp "Attempting to fetch from S3 Bucket"
-    # download the RPM from portal and copy it here
-fi
+# this will skip upon partially completed downloads
+# switched from aws s3 cp to aws s3 sync to not repeat downloads instead
+#if ! [ -f "$CROWDSTRIKE_FALCON_SENSOR_RPM" ]; then
+#    timestamp "RPM not found locally: $CROWDSTRIKE_FALCON_SENSOR_RPM"
+#    timestamp "Attempting to fetch from S3 Bucket"
+#    # download the RPM from portal and copy it here
+#fi
 
-timestamp "Downloading CrowdStrike Falcon Sensor RPM from S3 bucket: $CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url"
+timestamp "Downloading CrowdStrike Falcon Sensor RPM from S3 bucket: $CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL"
 echo
-aws s3 sync "$CROWDSTRIKE_FALCON_SENSOR_RPM_s3_url" .
+aws s3 sync "${CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL%/*}" /tmp/packer/ \
+            --exclude "*" \
+            --include "$CROWDSTRIKE_FALCON_SENSOR_RPM"
