@@ -19,14 +19,25 @@ set -euo pipefail
 # shellcheck disable=SC1091
 source "/tmp/packer/lib/utils.sh"
 
-timestamp "Installing Ntpd"
+timestamp "Installing Cronyd / Ntpd"
 echo
+
 # shellcheck disable=SC2154
-rpm -q ntp ||
-$sudo yum install ntp
+rpm -q chrony ||
+$sudo yum install chrony ||
+rpm -q ntpd ||
+$sudo yum install ntpd
+
 echo
+
+$sudo chkconfig chronyd on ||
+$sudo systemctl enable chronyd ||
 $sudo chkconfig ntpd on ||
 $sudo systemctl enable ntpd
+
 echo
+
+$sudo service chronyd start ||
+$sudo systemctl start chronyd ||
 $sudo service ntpd start ||
 $sudo systemctl start ntpd
