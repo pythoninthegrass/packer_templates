@@ -74,7 +74,8 @@ $sudo /opt/CrowdStrike/falconctl -s -f --cid="$crowdstrike_falcon_sensor_secret"
 echo
 timestamp "Starting Falcon Sensor..."
 echo
-$sudo service falcon-sensor start
+$sudo service falcon-sensor start ||
+$sudo systemctl start falcon-sensor
 echo
 timestamp "Falcon Sensor version:"
 echo
