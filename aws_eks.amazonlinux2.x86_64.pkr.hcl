@@ -248,6 +248,7 @@ build {
   }
 
   provisioner "shell" {
+    # don't sudo this one or subsequent commands running as just user will fail
     execute_command = "bash -euo pipefail '{{ .Path }}'"
     inline = [
       "mkdir -v /tmp/packer",
