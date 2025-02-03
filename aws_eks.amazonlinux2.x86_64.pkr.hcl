@@ -289,6 +289,11 @@ build {
 
   provisioner "shell" {
     inline = [
+      "echo Build UUID: ${build.PackerRunUUID}",
+      "echo Source '${source.name}' type '${source.type}'",
+      "echo",
+      "env | grep PACKER || :",
+      "echo",
       "echo OS:",
       "echo",
       "cat /etc/*release",
@@ -296,14 +301,6 @@ build {
       "echo Environment:",
       "echo",
       "env | sort"
-    ]
-  }
-
-  provisioner "shell" {
-    inline = [
-      "env | grep PACKER || :",
-      "echo Build UUID: ${build.PackerRunUUID}",
-      "echo Source '${source.name}' type '${source.type}'",
     ]
   }
 
