@@ -267,8 +267,8 @@ build {
 
   # Upload CrowdStrike RPM to EC2 VM of AMI build
   #provisioner "file" {
-  #  source      = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
-  #  destination = "falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
+  #  source      = "/tmp/packer/falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
+  #  destination = "/tmp/packer/falcon-sensor-${local.crowdstrike_version}.AmazonLinux-2.rpm"
   #  direction   = "upload"
   #}
 
