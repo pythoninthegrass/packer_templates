@@ -36,7 +36,7 @@ locals {
   # * AMIName should only contain alphanumeric characters, parentheses (()), square brackets ([]), spaces ( ), periods (.), slashes (/), dashes (-), single quotes ('), at-signs (@), or underscores(_). You can use the `clean_resource_name` template filter to automatically clean your ami name.
   #ami_target_name = "amazon-eks-node-${var.eks_version}-custom-{{timestamp}}"  # epoch
   ami_target_name  = "amazon-eks-node-${var.eks_version}-custom-${local.timestamp}"
-  ami_description = "EKS Kubernetes ${var.eks_version} Worker AMI (AmazonLinux2)"
+  ami_description = "EKS ${var.eks_version} Custom AMI (AmazonLinux2)"
 
   # locals can access data sources but data sources cannot access locals, to prevent circular dependencies
   #source_ami_id   = data.amazon-ami.ubuntu.id
