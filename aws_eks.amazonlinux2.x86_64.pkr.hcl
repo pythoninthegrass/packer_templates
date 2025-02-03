@@ -244,7 +244,6 @@ build {
       "env | grep PACKER || :",
       "echo Build UUID: ${build.PackerRunUUID}",
       "echo Source '${source.name}' type '${source.type}'",
-      "mkdir -p -v /tmp/packer",
     ]
   }
 
