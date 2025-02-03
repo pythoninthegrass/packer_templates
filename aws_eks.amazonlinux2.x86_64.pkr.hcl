@@ -326,6 +326,7 @@ build {
 
   # post-processor blocks run in parallel
   #
+  # doesn't publish the AMI without this post-processor
   post-processor "checksum" {                                                      # checksum image
     checksum_types      = ["md5", "sha512"]                                        # checksum the artifact
     keep_input_artifact = true                                                     # keep the artifact
