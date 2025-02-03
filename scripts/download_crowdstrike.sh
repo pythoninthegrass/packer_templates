@@ -46,6 +46,7 @@ CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL="s3://$CROWDSTRIKE_S3_BUCKET/$CROWDSTRIKE_S
 
 timestamp "Downloading CrowdStrike Falcon Sensor RPM from S3 bucket: $CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL"
 echo
+mkdir -p -v /tmp/packer
 aws s3 sync "${CROWDSTRIKE_FALCON_SENSOR_RPM_S3_URL%/*}" /tmp/packer/ \
             --exclude "*" \
             --include "$CROWDSTRIKE_FALCON_SENSOR_RPM"
