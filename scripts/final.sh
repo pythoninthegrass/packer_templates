@@ -23,6 +23,10 @@ set -euo pipefail
 [ -n "${DEBUG:-}" ] && set -x
 #srcdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
+echo "Deleting /tmp/packer"
+rm -rf /tmp/packer
+echo
+
 echo "Cleaning Caches"
 curl -sSf https://raw.githubusercontent.com/HariSekhon/DevOps-Bash-tools/master/bin/clean_caches.sh | sh
 echo
