@@ -244,6 +244,7 @@ build {
       "env | grep PACKER || :",
       "echo Build UUID: ${build.PackerRunUUID}",
       "echo Source '${source.name}' type '${source.type}'",
+      "mkdir -p -v /tmp/packer",
     ]
   }
 
@@ -254,6 +255,14 @@ build {
   }
 
   # Download CrowdStrike RPM from pre-staged S3 bucket
+  #
+  # Run this script in Makefile before packer build, otherwise tries to stat this
+  # first and fails:
+  #
+  #   * Bad source '/tmp/packer/falcon-sensor-7.17.0-17005.AmazonLinux-2.rpm': stat
+  #   /tmp/packer/falcon-sensor-7.17.0-17005.AmazonLinux-2.rpm: no such file or
+  #   directory
+  #
   #provisioner "shell-local" {
   #  scripts = [
   #    "${local.scripts}/download_crowdstrike.sh"
