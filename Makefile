@@ -82,7 +82,7 @@ all:
 	@echo
 	$(MAKE) rocky
 
-AWS_EKS_PACKER = aws_eks_ami.al2.x86_64.pkr.hcl
+AWS_EKS_PACKER = aws_eks.amazonlinux2.x86_64.pkr.hcl
 
 EKS_VERSION := 1.28
 
