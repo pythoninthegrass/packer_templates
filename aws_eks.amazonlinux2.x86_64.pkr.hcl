@@ -248,6 +248,7 @@ build {
   }
 
   provisioner "shell" {
+    execute_command = "bash -euo pipefail '{{ .Path }}'"
     inline = [
       "mkdir -v /tmp/packer",
     ]
