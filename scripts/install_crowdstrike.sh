@@ -41,12 +41,6 @@ if [ -z "$crowdstrike_falcon_sensor_secret" ]; then
     timestamp "CROWDSTRIKE_FALCON_SENSOR_SECRET not set in environment, will attempt to fetch it from AWS Secrets Manager"
     echo
     if [ -n "${CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET:-}" ]; then
-        if ! type -P jq &>/dev/null; then
-            timestamp "Installing jq to parse AWS Secrets Manager secret"
-            echo
-            $sudo yum install -y jq
-            echo
-        fi
         timestamp "Fetching CrowdStrike Falcon Sensor secret from AWS Secrets Manager: $CROWDSTRIKE_AWS_SECRETS_MANAGER_SECRET"
         echo
         crowdstrike_falcon_sensor_secret="$(
@@ -64,6 +58,16 @@ if [ -z "$crowdstrike_falcon_sensor_secret" ]; then
     fi
 fi
 echo
+
+if [ "${crowdstrike_falcon_sensor_secret:0:1}" = "{" ]; then
+    if ! type -P jq &>/dev/null; then
+        timestamp "Installing jq to parse AWS Secrets Manager secret"
+        echo
+        $sudo yum install -y jq
+        echo
+    fi
+    crowdstrike_falcon_sensor_secret="$(jq -r '.CID' <<< "$crowdstrike_falcon_sensor_secret")"
+fi
 
 timestamp "Configuring CrowdStrike with Falcon Sensor secret..."
 $sudo /opt/CrowdStrike/falconctl -s -f --cid="$crowdstrike_falcon_sensor_secret"
