@@ -54,6 +54,8 @@ Bare metal servers can be installed using each Linux distro's native [automated 
 
 Virtual Machines as appliances in portable OVA format are 100% automated using the installers above.
 
+AWS Custom AMI use cases include adding tooling, or security agents to EKS cluster nodes for Corporate Compliance.
+
 The primary templates are for the main Linux distributions:
 
 - Amazon Linux - based off existing AMI
